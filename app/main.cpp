@@ -6,6 +6,21 @@
 #include <fstream>
 
 #include <subs/core/vector_compil_subs.hpp>
+#include <subs/maths/subs_maths.h>
+
+template <typename T>
+class FactoryType : public subs::Factory
+{
+public:
+    virtual std::unique_ptr<subs::Function> make_function()
+    {
+        return std::make_unique<T>();
+    }
+    virtual std::unique_ptr<subs::condition::Question> make_question()
+    {
+        return std::make_unique<T>();
+    }
+};
 
 class MyRegexLine : public subs::Item
 {
@@ -72,6 +87,7 @@ void regex_mode(const std::string_view& input, const std::string_view& subs_out,
     subs::Compile subs_compiler;
     std::shared_ptr<MyRegexContainer> regCont = std::make_shared<MyRegexContainer>();
     subs_compiler.setContainer(regCont);
+    subs_compiler.addModuleFactory("maths", std::make_shared<FactoryType<subs::Maths>>());
     auto subs_object = subs_compiler.parse(std::string(subs_out));
     
     for (auto& filename : files)
@@ -111,17 +127,20 @@ void regex_mode(const std::string_view& input, const std::string_view& subs_out,
 
 void print_help()
 {
-    std::cout << R"(subs <input_method> <input> <subs> [options...] [files...]
+    std::cout << R"(Subs application 1.1.0
+subs <input_method> <input> <subs> [options...] [files...]
 Input methods :
+    help        display this.
     regex       takes regex in input. subs variables refer 
                 to the regex position (ex: $1;)
-
-(no options for now...)
+    json        takes json syntaxe. subs variables is a 
+                json path (ex: $ob1.ob2[3].string;)
+    json_file   takes json file. Same syntax as `json`
 
 Regex available special variables
-    $size;      number of regex captures
-    $line;      line number
-    $filename;  filename (same as files arguments)
+    size        number of regex captures
+    line        line number
+    filename    filename (same as files arguments)
 )";
 }
 class AppException : public std::exception
@@ -136,15 +155,6 @@ private:
 
 int real_main (int argc, char** argv)
 {
-    using namespace std::string_literals;
-    if (argc==2)
-    {
-        if (argv[1]=="help"s)
-        {
-            print_help();
-            return EXIT_SUCCESS;
-        }
-    }
     if (argc<5)
         throw AppException("Arguments is missing.");
     std::list<std::string_view> listFiles;
@@ -159,9 +169,9 @@ int real_main (int argc, char** argv)
     else if (inputMethod=="regex")
         regex_mode(input, subs_output, listFiles);
     else if (inputMethod=="json")
-        throw AppException("json under development.");
+        throw AppException("Json en developpement.");
     else if (inputMethod=="json_file")
-        throw AppException("json under development.");
+        throw AppException("Json en developpement.");
     return EXIT_SUCCESS;
 }
 

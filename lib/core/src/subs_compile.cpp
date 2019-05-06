@@ -175,6 +175,10 @@ namespace subs
 	{
 		m_container = cont;
 	}
+	void Compile::addModuleFactory(std::string name, std::shared_ptr<Factory> fact)
+	{
+		m_factories[name].swap(fact);
+	}
 	void Compile::make_Text(std::unique_ptr<Collection>& list, biIterator & format, std::string::const_iterator it)
 	{
 		format.end = it;
@@ -347,10 +351,19 @@ namespace subs
 					currentPart.begin = std::next(currentPart.end);
 					break;
 				}
+				
+
 				{
 					auto parsedName = parse(currentNameFunc);
 					if (dynamic_cast<subs::Text*>(parsedName.get()))
-						currentFunc = std::make_unique<FunctionStatic>(Function::GetFunction(currentNameFunc));
+					{
+						std::string name1=parsedName->get();
+						if (m_factories.find( name1)!=m_factories.end())
+							currentFunc = m_factories[name1]->make_function();
+						else
+							currentFunc = std::make_unique<FunctionStatic>(Function::GetFunction(currentNameFunc));
+					}
+						
 					else
 						currentFunc = std::make_unique<FunctionDynamic>(std::move(parsedName));
 				}

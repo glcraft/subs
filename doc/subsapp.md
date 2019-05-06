@@ -1,4 +1,4 @@
-# Subs - Application 1.0
+# Subs - Application 1.1.0
 
 ## Présentation
 

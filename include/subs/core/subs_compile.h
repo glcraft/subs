@@ -5,6 +5,13 @@
 #include <subs/core/subs_object.h>
 namespace subs
 {
+	namespace condition
+	{
+		class Question;
+	} // condition
+	
+	class Conditional;
+
 	void Init();
 	class Collection : public Object
 	{
@@ -90,12 +97,21 @@ namespace subs
 		//Conditionnal
 		biIterator getSubCondition(biIterator range);
 	}
+	class Factory
+	{
+	public:
+		virtual std::unique_ptr<Function> make_function()=0;
+		virtual std::unique_ptr<condition::Question> make_question()=0;
+	};
+	
 	class Compile
 	{
 	public:
 		Object::ptr parse(biIterator format);
 		Object::ptr parse(const std::string& format);
 		void setContainer(std::shared_ptr<Container> cont);
+		
+		void addModuleFactory(std::string name, std::shared_ptr<Factory> cont);
 	protected:
 		void make_Text(std::unique_ptr<Collection>& list, biIterator& format, std::string::const_iterator it);
 
@@ -105,5 +121,6 @@ namespace subs
 
 		//std::unique_ptr<Collection> m_list;
 		std::shared_ptr<Container> m_container;
+		std::map<std::string, std::shared_ptr<Factory>> m_factories;
 	};
 }
