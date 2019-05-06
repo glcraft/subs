@@ -105,6 +105,7 @@ namespace subs
 					nameQuest.trim();
 					biIterator cond;
 					Question::ptr newQuest;
+					const auto& moduleFactories = m_subsParser->getModuleFactories();
 					
 					if (nameQuest.empty())
 					{
@@ -132,6 +133,10 @@ namespace subs
 								quest->setCondition(Condition::GetCondition("False"));
 								newQuest = move(quest);
 							}
+						}
+						else if (moduleFactories.find(nameQuest)!=moduleFactories.end())
+						{
+							newQuest = moduleFactories.at(nameQuest)->make_question();
 						}
 						else
 						{

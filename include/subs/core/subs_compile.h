@@ -112,6 +112,10 @@ namespace subs
 		void setContainer(std::shared_ptr<Container> cont);
 		
 		void addModuleFactory(std::string name, std::shared_ptr<Factory> cont);
+		inline const std::map<std::string, std::shared_ptr<Factory>>& getModuleFactories()
+		{
+			return m_factories;
+		}
 	protected:
 		void make_Text(std::unique_ptr<Collection>& list, biIterator& format, std::string::const_iterator it);
 
