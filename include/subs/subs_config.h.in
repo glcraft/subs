@@ -1,0 +1,3 @@
+#pragma once
+#cmakedefine USE_SUBS_EXPRTK
+#cmakedefine USE_SUBS_FPARSER

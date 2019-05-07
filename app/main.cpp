@@ -6,7 +6,7 @@
 #include <fstream>
 
 #include <subs/core/vector_compil_subs.hpp>
-#include <subs/maths/subs_maths.h>
+#include <subs/maths/subs_fparser.h>
 
 template <typename T>
 class FactoryType : public subs::Factory
@@ -87,7 +87,7 @@ void regex_mode(const std::string_view& input, const std::string_view& subs_out,
     subs::Compile subs_compiler;
     std::shared_ptr<MyRegexContainer> regCont = std::make_shared<MyRegexContainer>();
     subs_compiler.setContainer(regCont);
-    subs_compiler.addModuleFactory("maths", std::make_shared<FactoryType<subs::Maths>>());
+    subs_compiler.addModuleFactory("fparser", std::make_shared<FactoryType<subs::FParser>>());
     auto subs_object = subs_compiler.parse(std::string(subs_out));
     
     for (auto& filename : files)
