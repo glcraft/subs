@@ -1,6 +1,6 @@
 #pragma once
 #include <subs/subs_config.h>
-#ifdef USE_SUBS_FPARSER
+#if USE_SUBS_FPARSER
 #include <fparser/fparser.hh>
 #include <subs/core/subs_libinit.h>
 #include <subs/core/subs_compile.h>

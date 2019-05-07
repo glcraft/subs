@@ -4,7 +4,9 @@ project(Subs VERSION 1.1.0)
 
 set(USE_SUBS_EXPRTK OFF CACHE BOOL "Compile Subs ExprTk then use it in the application")
 set(USE_SUBS_FPARSER ON CACHE BOOL "Compile Subs FParser then use it in the application")
+set(USE_SUBS_JSON ON CACHE BOOL "Add Subs json container")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 
 if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/maths")
     set(USE_SUBS_EXPRTK OFF)

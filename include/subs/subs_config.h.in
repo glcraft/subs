@@ -1,3 +1,4 @@
 #pragma once
-#cmakedefine USE_SUBS_EXPRTK
-#cmakedefine USE_SUBS_FPARSER
+#cmakedefine01 USE_SUBS_EXPRTK
+#cmakedefine01 USE_SUBS_FPARSER
+#cmakedefine01 USE_SUBS_JSON

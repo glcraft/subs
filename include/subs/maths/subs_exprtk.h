@@ -1,6 +1,6 @@
 #pragma once
 #include <subs/subs_config.h>
-#ifdef USE_SUBS_EXPRTK
+#if USE_SUBS_EXPRTK
 #include <subs/core/subs_libinit.h>
 #include <subs/core/subs_compile.h>
 #include <subs/core/subs_conditional.h>
