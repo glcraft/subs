@@ -1,34 +1,35 @@
 #include "exprtk.hpp"
-#include <subs/maths/subs_maths.h>
+#include <subs/maths/subs_exprtk.h>
 #include <iomanip>
 namespace subs
 {
 	using expression_t = typename exprtk::expression<double>;
-	using parser_t = typename exprtk::parser<double>;	Maths::Maths()
+	using parser_t = typename exprtk::parser<double>;
+	ExprTk::ExprTk()
 	{
 		
 		
 	}
-	Maths::~Maths()
+	ExprTk::~ExprTk()
 	{
 		if (m_expression)
 			delete reinterpret_cast<expression_t*>(m_expression);
 		if (m_parser)
 			delete reinterpret_cast<expression_t*>(m_parser);
 	}
-	std::string Maths::get() const
+	std::string ExprTk::get() const
 	{
 		checkExpr();
 		std::ostringstream ostr;
 		ostr << std::setprecision(6) << reinterpret_cast<expression_t*>(m_expression)->value();
 		return ostr.str();
 	}
-	bool Maths::ask() const
+	bool ExprTk::ask() const
 	{
 		checkExpr();
 		return reinterpret_cast<expression_t*>(m_expression)->value()!=0.;
 	}
-	void Maths::checkExpr() const
+	void ExprTk::checkExpr() const
 	{
 		if (!m_expression)
 			m_expression = new expression_t;

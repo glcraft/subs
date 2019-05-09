@@ -32,6 +32,7 @@ namespace subs
 
 		//virtual bool exists(biIterator) const = 0;
 		virtual Item::shared_ptr getItem(biIterator) const = 0;
+		virtual Item::shared_ptr getItem(biIterator) = 0;
 	};
 	
 	using arguments_t = std::vector<Object::ptr>;

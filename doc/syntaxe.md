@@ -58,29 +58,29 @@ A noter qu'une fonction lambda peut en appeler une autre si celle ci a été dé
 ```
 Resultat (nom1=van dame, prenom1=jean-claude, nom2=willis, prenom2=bruce): `Jean-Claude VAN DAME et Bruce WILLIS se connaissent.`
 
-## La fonction calc
+## La fonction maths
 
-La fonction calc est une fonction spécial permettant de traiter avec des nombres. En effet, tout texte sous forme de nombre présent dans le paramètre sera transformé en nombre, sachant que le paramètre lui même est une [expression](#expression). Il est aussi possible de poser des calculs basique à l'interieur, (à savoir + - * /) ainsi que des comparaisons (= < > <= >=) qui eux retourne 1 si l'equation s'avère vrai, 0 sinon. Les nombres sont des nombres entiers allant de -2^63 à 2^63-1 (en C++, peut changer en fonction du langage utilisé).
+La fonction maths est une fonction spécial permettant de traiter avec des nombres. En effet, tout texte sous forme de nombre présent dans le paramètre sera transformé en nombre, sachant que le paramètre lui même est une [expression](#expression). Il est aussi possible de poser des calculs basique à l'interieur, (à savoir + - * /) ainsi que des comparaisons (= < > <= >=) qui eux retourne 1 si l'equation s'avère vrai, 0 sinon. Les nombres sont des nombres entiers allant de -2^63 à 2^63-1 (en C++, peut changer en fonction du langage utilisé).
 
 Les calculs n'ont pas d'ordre de priorité, ils sont effectués de gauche a droite. donc (4+2\*2) font 16, pas 8. Pour forcer l'ordre de priorité, utilisez des parenthèses : (4+(2\*2)) font bien 8.
 
 Quelques exemples :
 ```
-nb1 et 32 font {calc($nb1;+32)}.
+nb1 et 32 font {maths($nb1;+32)}.
 ```
 Résultat (nb1=4): `nb1 et 32 font 36.`
 ```
-nb1 au carré fait {calc($nb1;*$nb1;)}.
+nb1 au carré fait {maths($nb1;*$nb1;)}.
 ```
 Résultat (nb1=4): `nb1 au carré fait 16.`
 
-Si la fonction calc est utilisé dans une condition, la condition sera vrai si la valeur est différente de 0.
+Si la fonction maths est utilisé dans une condition, la condition sera vrai si la valeur est différente de 0.
 ```
-nb1 et 32 sont {calc($nb1;=32)?égaux:différent}.
+nb1 et 32 sont {maths($nb1;=32)?égaux:différent}.
 ```
 Résultat (nb1=32): `nb1 et 32 sont égaux.`
 ```
-nb1, nb2 et nb3 : {calc($nb1;*$nb2;*nb3;)?Au moins une des valeurs est nulles:Elle sont toutes différente de zéro}.
+nb1, nb2 et nb3 : {maths($nb1;*$nb2;*nb3;)?Au moins une des valeurs est nulles:Elle sont toutes différente de zéro}.
 ```
 Résultat (nb1=nb2=32, nb3=0): `nb1, nb2 et nb3 : Au moins une des valeurs est nulles.`
 
@@ -89,13 +89,13 @@ Les fonctions spéciales **repeat** et **while** offrent la capacité de répét
 
 Dans le cas de la fonction repeat (`repeat(nb,expression)`), le premier argument correspond au nombre de de fois que l'expression du second argument doit être répété. Le nombre est une expression, il est donc tout à fait possible de mettre un argument ou une fonction quelconque à condition que ce soit strictement un **nombre entier positif ou nul** (l'aide de la fonction intégrée "num" décrite dans [Fonctions disponibles](#fonctions-disponibles) peut être utile dans ce cas là). 
 ```
--{repeat({calc(2+2)},hey you\,)}-
+-{repeat({maths(2+2)},hey you\,)}-
 ```
 Résultat : `-hey you,hey you,hey you,hey you,-`
 
 La fonction while (`repeat(condition,expression)`) prend comme premier argument une condition. Tant que cette condition est vrai, l'expression est répété (détails des conditions dans [Les blocs conditionnés](#les-blocs-conditionnés)).
 ```
--{while(calc({counter()}<5),|hey you|)}-
+-{while(maths({counter()}<5),|hey you|)}-
 ```
 Résultat : `-|hey you||hey you||hey you||hey you||hey you|-`
 
@@ -103,7 +103,7 @@ Résultat : `-|hey you||hey you||hey you||hey you||hey you|-`
 
 # Conditions disponibles
 
-* **calc**(expr) : *Condition spéciale*. Traitement des nombres. Vrai si l'expression n'est pas nulle. Pour plus de détails, voir la partie "[La fonction calc](#la-fonction-calc)"
+* **maths**(expr) : *Condition spéciale*. Traitement des nombres. Vrai si l'expression n'est pas nulle. Pour plus de détails, voir la partie "[La fonction maths](#la-fonction-maths)"
 
 * **equals**(txt1,txt2): vrai si les deux textes sont égaux.
     ```
@@ -131,7 +131,7 @@ Résultat : `-|hey you||hey you||hey you||hey you||hey you|-`
     Résultat (name=valeur): `-valeur,valeur-`
 
 * **lambda**(nom,fonction): *Fonction spéciale*. voir la partie "[Les fonctions lambdas](#les-fonctions-lambdas)"
-* **calc**(expr): *Fonction spéciale*. voir la partie "[La fonction calc](#la-fonction-calc)"
+* **maths**(expr): *Fonction spéciale*. voir la partie "[La fonction maths](#la-fonction-maths)"
 * (txt): *Fonction spéciale*. Commentaire
     ```
     -{(commentaire non affiché)}-
@@ -169,7 +169,7 @@ Résultat : `-|hey you||hey you||hey you||hey you||hey you|-`
     Résultat: `-abdt43987er3242-`
 * **count_chars** : Compte le nombre de caractère dans la chaine. Exemple :
     ```
-    {calc({count_chars($num_tel;)}=10)?numéro de téléphone=$num_tel;:Le numéro de téléphone est mal formé}.
+    {maths({count_chars($num_tel;)}=10)?numéro de téléphone=$num_tel;:Le numéro de téléphone est mal formé}.
     ```
     Résultat (num_tel=061234): `Le numéro de téléphone est mal formé.`
 * **line_number**() : En fonction de l'implémentation, donne la ligne actuelle lors de l'analyse

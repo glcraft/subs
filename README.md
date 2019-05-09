@@ -37,8 +37,9 @@ CECI EST UN EXEMPLE, ET VOICI UN TEXTE.
 
 ## TODO
 
-- [ ] Intégration bibliothèque mathématique (ExprTk)
-- [ ] Intégration bibliothèque json (https://github.com/nlohmann/json)
+- [x] Intégration module mathématique (ExprTk)
+- [x] Intégration module mathématique (FParser)
+- [x] Intégration bibliothèque json (https://github.com/nlohmann/json)
   - prendra en charge le json en plus du regex
 - [ ] Documentation sur le développement
 - [ ] Traduction en anglais
