@@ -1,4 +1,4 @@
-# Subs - Application 1.1.0
+# Subs - Application 1.2.0
 
 ## Présentation
 
@@ -7,17 +7,21 @@ SubsApp est un lecteur de fichier traitant les informations reçues avec le subs
 ## Aide
 
 ```
+Subs application 1.2.0
 subs <input_method> <input> <subs> [options...] [files...]
 Input methods :
+    help        display this.
     regex       takes regex in input. subs variables refer 
                 to the regex position (ex: $1;)
-
-(no options for now...)
+    json        takes json syntaxe. subs variables is a 
+                json path (ex: $ob1.ob2[3].string;)
+                Note : if file(s) is specified, 'input' 
+                doesn't count, and vice versa...
 
 Regex available special variables
-    $size;      number of regex captures
-    $line;      line number
-    $filename;  filename (same as files arguments)
+    size        number of regex captures
+    line        line number
+    filename    filename (same as files arguments)
 ```
 
 ## Exemple (via Bash)

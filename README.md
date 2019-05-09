@@ -39,7 +39,7 @@ CECI EST UN EXEMPLE, ET VOICI UN TEXTE.
 
 - [x] Intégration module mathématique (ExprTk)
 - [x] Intégration module mathématique (FParser)
-- [ ] Intégration bibliothèque json (https://github.com/nlohmann/json)
+- [x] Intégration bibliothèque json (https://github.com/nlohmann/json)
   - prendra en charge le json en plus du regex
 - [ ] Documentation sur le développement
 - [ ] Traduction en anglais
