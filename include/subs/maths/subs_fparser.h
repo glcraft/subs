@@ -27,4 +27,6 @@ namespace subs
 		mutable FunctionParser fparser;
 	};
 }
+#else
+#	pragma message ( "Subs : Caution. FParser module is not integrated." )
 #endif

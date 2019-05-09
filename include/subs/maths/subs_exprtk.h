@@ -27,4 +27,6 @@ namespace subs
 		mutable void* m_parser = nullptr;
 	};
 }
+#else
+#	pragma message ( "Subs : Caution. ExprTk module is not integrated." )
 #endif
