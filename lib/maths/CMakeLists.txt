@@ -1,9 +1,11 @@
+
 project(SubsMaths)
 
 set(SEXPRTK_INCLUDE_DIR)
 set(SFPARSER_INCLUDE_DIR)
 set(SFPARSER_LIBRARIES)
 if (USE_SUBS_EXPRTK)
+    message("subs : Using ExprTk evaluation")
     find_package(ExprTk REQUIRED)
     file(GLOB Filemaths FILES
     "src/subs_exprtk.cpp"
@@ -15,6 +17,7 @@ if (USE_SUBS_EXPRTK)
     endif()
 endif()
 if (USE_SUBS_FPARSER)
+    message("subs : Using FParser evaluation")
     find_package(FParser REQUIRED)
     file(GLOB Filemaths FILES
         "src/subs_fparser.cpp"
