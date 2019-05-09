@@ -1,5 +1,5 @@
 #pragma once
-#include "subs_compile.h"
+#include <subs/core/subs_compile.h>
 #include <vector>
 #include <list>
 #include <string>
@@ -30,7 +30,19 @@ namespace subs
 		{
 			m_items.clear();
 		}
-		virtual Item::shared_ptr getItem(biIterator name) const 
+		virtual Item::shared_ptr getItem(biIterator name) const
+		{
+			auto found = m_items.end();
+			if (name == "size")
+				found = m_items.find(-1);
+			else
+				found = m_items.find(getValue(name));
+			if (found != m_items.end())
+				return found->second;
+			else
+				return Item::shared_ptr();
+		}
+		virtual Item::shared_ptr getItem(biIterator name)  
 		{
 			if (name == "size")
 			{
@@ -48,7 +60,7 @@ namespace subs
 			else
 			{
 				auto val = getValue(name);
-				if (val != -1)
+				if (val != -2)
 				{
 					auto found = m_items.find(val);
 					VectorBasedItem<Type>::shared_ptr shPtr;
@@ -83,12 +95,12 @@ namespace subs
 			catch (std::invalid_argument exc)
 			{
 				std::cerr << __FUNCTION__ << " exception : Argument invalide. Argument passé : " << name.str() << std::endl;
-				return -1;
+				return -2;
 			}
 			catch (std::out_of_range exc)
 			{
 				std::cerr << __FUNCTION__ << " exception : Nombre hors champ. Argument passé : " << name.str() << std::endl;
-				return -1;
+				return -2;
 			}
 			return i;
 		}
