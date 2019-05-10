@@ -8,6 +8,8 @@
 #include "common.h"
 #include "nlohmann/json.hpp"
 
+void rename_mode(const std::string_view& input, const std::string_view& subs_out);
+
 void regex_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files);
 
 void json_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files);
@@ -20,12 +22,16 @@ Input methods :
     help        display this.
     regex       takes regex in input. subs variables refer 
                 to the regex position (ex: $1;)
+    rename      rename files using regex research.
     json        takes json syntaxe. subs variables is a 
                 json path (ex: $ob1.ob2[3].string;)
                 Note : if file(s) is specified, 'input' 
                 doesn't count, and vice versa...
 
-Regex available special variables
+Rename options
+    -R, --recursive     go through subdirectories
+
+Regex subs available special variables
     size        number of regex captures
     line        line number
     filename    filename (same as files arguments)
@@ -59,6 +65,8 @@ int real_main (int argc, char** argv)
         print_help();
     else if (inputMethod=="regex")
         regex_mode(input, subs_output, listFiles);
+    else if (inputMethod=="rename")
+        rename_mode(input, subs_output);
     else if (inputMethod=="json")
         json_mode(input, subs_output, listFiles);
     return EXIT_SUCCESS;
