@@ -58,32 +58,33 @@ A noter qu'une fonction lambda peut en appeler une autre si celle ci a été dé
 ```
 Resultat (nom1=van dame, prenom1=jean-claude, nom2=willis, prenom2=bruce): `Jean-Claude VAN DAME et Bruce WILLIS se connaissent.`
 
-## La fonction maths
+## La fonction "maths"
 
-La fonction maths est une fonction spécial permettant de traiter avec des nombres. En effet, tout texte sous forme de nombre présent dans le paramètre sera transformé en nombre, sachant que le paramètre lui même est une [expression](#expression). Il est aussi possible de poser des calculs basique à l'interieur, (à savoir + - * /) ainsi que des comparaisons (= < > <= >=) qui eux retourne 1 si l'equation s'avère vrai, 0 sinon. Les nombres sont des nombres entiers allant de -2^63 à 2^63-1 (en C++, peut changer en fonction du langage utilisé).
+La fonction "maths" (ce nom change en fonction de l'implémentation) est une fonction traitant des formules mathématiques. Selon l'implémentation, la fonction peut calculer des formules standard (calcul basique et non prioritaire) jusqu'au formule scientifique (fonctions mathématiques et prioritaire). La fonction "maths" peut être utilisé en tant que fonction ou [expression](#expression). Si c'est une expression, tout résultat différent de 0 sera vrai.
 
-Les calculs n'ont pas d'ordre de priorité, ils sont effectués de gauche a droite. donc (4+2\*2) font 16, pas 8. Pour forcer l'ordre de priorité, utilisez des parenthèses : (4+(2\*2)) font bien 8.
-
-Quelques exemples :
+Quelques exemples (avec l'intégration de la bibliothèque fparser) :
 ```
-nb1 et 32 font {maths($nb1;+32)}.
+nb1 et 32 font {fparser($nb1;+32)}.
 ```
 Résultat (nb1=4): `nb1 et 32 font 36.`
 ```
-nb1 au carré fait {maths($nb1;*$nb1;)}.
+nb1 au carré fait {fparser($nb1;*$nb1;)}. Autre manière : {fparser($nb1;^2)}.
 ```
-Résultat (nb1=4): `nb1 au carré fait 16.`
+Résultat (nb1=4): `nb1 au carré fait 16. Autre manière : 16`
 
-Si la fonction maths est utilisé dans une condition, la condition sera vrai si la valeur est différente de 0.
+Si la fonction fparser est utilisé dans une condition, la condition sera vrai si la valeur est différente de 0.
 ```
-nb1 et 32 sont {maths($nb1;=32)?égaux:différent}.
+nb1 et 32 sont {fparser($nb1;=32)?égaux:différent}.
 ```
 Résultat (nb1=32): `nb1 et 32 sont égaux.`
 ```
-nb1, nb2 et nb3 : {maths($nb1;*$nb2;*nb3;)?Au moins une des valeurs est nulles:Elle sont toutes différente de zéro}.
+nb1, nb2 et nb3 : {fparser($nb1;*$nb2;*nb3;)?Au moins une des valeurs est nulles:Elle sont toutes différente de zéro}.
 ```
 Résultat (nb1=nb2=32, nb3=0): `nb1, nb2 et nb3 : Au moins une des valeurs est nulles.`
-
+```
+test {fparser($nb1;<100 & 32%2=0)?:non} passé.
+```
+Résultat (nb1=32): `test passé.`
 ## Les boucles
 Les fonctions spéciales **repeat** et **while** offrent la capacité de répéter une expression plusieurs fois. 
 
@@ -103,7 +104,7 @@ Résultat : `-|hey you||hey you||hey you||hey you||hey you|-`
 
 # Conditions disponibles
 
-* **maths**(expr) : *Condition spéciale*. Traitement des nombres. Vrai si l'expression n'est pas nulle. Pour plus de détails, voir la partie "[La fonction maths](#la-fonction-maths)"
+* **maths**(expr) : *Condition spéciale, le nom dépend de l'implémentation*. Traitement des nombres. Vrai si l'expression n'est pas nulle. Pour plus de détails, voir la partie "[La fonction maths](#la-fonction-maths)"
 
 * **equals**(txt1,txt2): vrai si les deux textes sont égaux.
     ```
@@ -131,7 +132,7 @@ Résultat : `-|hey you||hey you||hey you||hey you||hey you|-`
     Résultat (name=valeur): `-valeur,valeur-`
 
 * **lambda**(nom,fonction): *Fonction spéciale*. voir la partie "[Les fonctions lambdas](#les-fonctions-lambdas)"
-* **maths**(expr): *Fonction spéciale*. voir la partie "[La fonction maths](#la-fonction-maths)"
+* **maths**(expr): *Fonction spéciale, le nom dépend de l'implémentation*. voir la partie "[La fonction maths](#la-fonction-maths)"
 * (txt): *Fonction spéciale*. Commentaire
     ```
     -{(commentaire non affiché)}-
