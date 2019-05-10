@@ -1,8 +1,10 @@
 #pragma once
 #include <subs/core/subs_compile.h>
+#include <iostream>
 #include <vector>
 #include <list>
 #include <string>
+#include <regex>
 namespace subs
 {
 	template <typename Type>
