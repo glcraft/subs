@@ -5,9 +5,6 @@
 #include <fstream>
 #include <subs/container/vector_compil_subs.hpp>
 
-
-
-
 void regex_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files)
 {
     std::regex rgxp(input.data(), input.length());
