@@ -37,10 +37,11 @@ CECI EST UN EXEMPLE, ET VOICI UN TEXTE.
 
 ## TODO
 
-- [x] Intégration module mathématique (ExprTk)
-- [x] Intégration module mathématique (FParser)
-- [x] Intégration bibliothèque json (https://github.com/nlohmann/json)
+- [x] Intégration module mathématique (ExprTk) (1.1.0)
+- [x] Intégration module mathématique (FParser) (1.1.1)
+- [x] Intégration bibliothèque json (https://github.com/nlohmann/json) (1.2.0)
   - prendra en charge le json en plus du regex
+- [x] Renommer des fichiers avec le programme (1.3.0)
 - [ ] Documentation sur le développement
 - [ ] Traduction en anglais
 - [ ] Ajout ICU (pour l'unicode et traitement avancée des caractères)

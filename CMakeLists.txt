@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(Subs VERSION 1.1.0)
+project(Subs VERSION 1.3.1)
 
 set(USE_SUBS_EXPRTK OFF CACHE BOOL "Compile Subs ExprTk then use it in the application")
 set(USE_SUBS_FPARSER ON CACHE BOOL "Compile Subs FParser then use it in the application")
@@ -16,6 +16,7 @@ endif()
 set(SUBS_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include")
 
 configure_file("${SUBS_INCLUDE_DIR}/subs/subs_config.h.in" "${SUBS_INCLUDE_DIR}/subs/subs_config.h")
+configure_file("${CMAKE_SOURCE_DIR}/doc/subsapp.in.md" "${CMAKE_SOURCE_DIR}/doc/subsapp.md")
 add_subdirectory(lib)
 add_subdirectory(app)
 

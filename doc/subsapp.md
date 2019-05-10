@@ -1,4 +1,4 @@
-# Subs - Application 1.2.0
+# Subs - Application 1.3.0
 
 ## Présentation
 
@@ -7,7 +7,7 @@ SubsApp est un lecteur de fichier traitant les informations reçues avec le subs
 ## Aide
 
 ```
-Subs application 1.2.0
+Subs application 1.3.0
 subs <input_method> <input> <subs> [options...] [files...]
 Input methods :
     help        display this.

@@ -16,7 +16,7 @@ void json_mode(const std::string_view& input, const std::string_view& subs_out, 
 
 void print_help()
 {
-    std::cout << R"(Subs application 1.2.0
+    std::cout << "Subs application " SUBS_VERSION R"(
 subs <input_method> <input> <subs> [options...] [files...]
 Input methods :
     help        display this.
