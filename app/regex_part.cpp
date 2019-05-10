@@ -5,64 +5,9 @@
 #include <fstream>
 #include <subs/container/vector_compil_subs.hpp>
 
-class MyRegexLine : public subs::Item
-{
-public:
-    void set(uint64_t nline)
-    {
-        m_nline=std::to_string(nline);
-    }
-    virtual std::string get() const
-    {
-        return m_nline;
-    }
-    virtual bool exists() const
-    {return true;}
-protected:
-    std::string m_nline;
-};
 
-class MyRegexFilename : public subs::Item
-{
-public:
-    void set(std::string filename)
-    {
-        m_filename=filename;
-    }
-    virtual std::string get() const
-    {
-        return m_filename;
-    }
-    virtual bool exists() const
-    {return true;}
-protected:
-    std::string m_filename;
-};
 
-class MyRegexContainer : public subs::RegexContainer
-{
-public:
-    MyRegexContainer()
-    {
-        m_reglineItem = std::make_shared<MyRegexLine>();
-        m_regfnItem = std::make_shared<MyRegexFilename>();
-    }
-    virtual subs::Item::shared_ptr getItem(biIterator name) const 
-    {
-        if (name=="line")
-            return m_reglineItem;
-        else if (name=="filename")
-            return m_regfnItem;
-        else
-            return subs::RegexContainer::getItem(name);
-    }
 
-    void setLine(uint64_t nline){m_reglineItem->set(nline);}
-    void setFilename(std::string filename){m_regfnItem->set(filename);}
-protected:
-    std::shared_ptr<MyRegexLine> m_reglineItem;
-    std::shared_ptr<MyRegexFilename> m_regfnItem;
-};
 void regex_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files)
 {
     std::regex rgxp(input.data(), input.length());
