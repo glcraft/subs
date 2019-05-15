@@ -8,6 +8,7 @@
 #include "common.h"
 #include "nlohmann/json.hpp"
 
+
 void rename_mode(const std::string_view& input, const std::string_view& subs_out);
 
 void regex_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files);
