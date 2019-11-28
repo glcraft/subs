@@ -5,9 +5,9 @@
 template <>
 std::string convert_string<std::wstring, std::string>(const std::wstring & strFrom)
 {
-    BOOL usedDefChar=false;
     std::string result;
 #ifdef _WIN32
+    BOOL usedDefChar=false;
     int nbch = WideCharToMultiByte(CP_ACP, 0, strFrom.c_str(), strFrom.length(), nullptr, 0, nullptr, &usedDefChar);
     result.resize(nbch, 0);
     WideCharToMultiByte(CP_ACP, 0, strFrom.c_str(), strFrom.length(), &result[0], nbch, nullptr, &usedDefChar);
