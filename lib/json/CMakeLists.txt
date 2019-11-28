@@ -1,6 +1,6 @@
 message("subs : Using Json container")
 project(SubsJson)
-find_package(nlohmann_json 3.2.0 REQUIRED)
+find_package(nlohmann_json CONFIG 3.2.0 REQUIRED)
 file(GLOB SubsJson_SRC FILES
     "src/json_compil_subs.cpp"
 )
