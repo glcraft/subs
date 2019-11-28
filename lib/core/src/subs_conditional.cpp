@@ -1,5 +1,6 @@
 
 #include <subs/core/subs_conditional.h>
+#include <memory>
 // #include <subs/maths/subs_maths.h>
 namespace subs
 {
@@ -93,7 +94,7 @@ namespace subs
 			std::vector<Question::ptr> questions;
 			std::list<int> indexes;
 			biIterator currentPart(format);
-			// Priorité calcul : se renseigner sur https://en.wikipedia.org/wiki/Shunting-yard_algorithm
+			// Prioritï¿½ calcul : se renseigner sur https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
 			for (auto it = format.begin; it != format.end; ++it)
 			{
@@ -121,7 +122,7 @@ namespace subs
 						{
 							if (listargs.size()==1)
 							{
-								auto quest = make_unique<Existance>();
+								auto quest = std::unique_ptr<Existance>(new Existance());
 								quest->setItem(m_container->getItem(listargs.front()));
 								newQuest = move(quest);
 								haveArgs = false;
@@ -129,7 +130,7 @@ namespace subs
 							else
 							{
 								//THROW
-								auto quest = make_unique<Condition>();
+								auto quest = std::unique_ptr<Condition>(new Condition());
 								quest->setCondition(Condition::GetCondition("False"));
 								newQuest = move(quest);
 							}
@@ -140,7 +141,7 @@ namespace subs
 						}
 						else
 						{
-							auto quest = make_unique<Condition>();
+							auto quest = std::unique_ptr<Condition>(new Condition());
 							quest->setCondition(Condition::GetCondition(nameQuest));
 							newQuest = move(quest);
 						}
@@ -152,7 +153,7 @@ namespace subs
 									argset->addArgument(m_subsParser->parse(arg));
 							else
 								for (auto arg : listargs)
-									argset->addArgument(make_unique<subs::Text>(arg));
+									argset->addArgument(std::unique_ptr<subs::Text>(new subs::Text(arg)));
 						}
 					}
 
@@ -198,7 +199,7 @@ namespace subs
 				{
 					if (*it == op)
 					{
-						std::unique_ptr<Operator> opQuest = make_unique<Operator>();
+						std::unique_ptr<Operator> opQuest = std::unique_ptr<Operator>(new Operator());
 						opQuest->setConditions(std::move(questions[*prev(it)]), std::move(questions[*next(it)]));
 						opQuest->setOperator(ops[-op-1]);
 						questions.push_back(std::move(opQuest));

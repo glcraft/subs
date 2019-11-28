@@ -123,7 +123,7 @@ namespace subs
 	Object::ptr Compile::parse(biIterator format)
 	{
 		using namespace parse_helper;
-		std::unique_ptr<Collection> result = std::make_unique<Collection>();
+		std::unique_ptr<Collection> result = std::unique_ptr<Collection>(new Collection());
 		biIterator currentSeq;
 		currentSeq.begin = format.begin;
 		for (auto it = format.begin; it != format.end; it++)
@@ -140,7 +140,7 @@ namespace subs
 				make_Text(result, currentSeq, it);
 				++currentSeq.begin;
 				biIterator var = getVariable(biIterator(currentSeq.begin, format.end));
-				result->push_back(make_unique<SharedRef<Item>>(m_container->getItem(var)));
+				result->push_back(std::unique_ptr<SharedRef<Item>>(new SharedRef<Item>(m_container->getItem(var))));
 				it = var.end;
 				currentSeq.begin = std::next(var.end);
 			}
@@ -162,7 +162,7 @@ namespace subs
 		}
 		currentSeq.end = format.end;
 		if (currentSeq.length() > 0)
-			result->push_back(make_unique<Text>(currentSeq));
+			result->push_back(std::unique_ptr<Text>(new Text(currentSeq)));
 		if (result->size() == 1)
 			return result->pop_back();
 		return result;
@@ -183,7 +183,7 @@ namespace subs
 	{
 		format.end = it;
 		if (format.length() > 0)
-			list->push_back(make_unique<Text>(format));
+			list->push_back(std::unique_ptr<Text>(new Text(format)));
 		format.begin = it;
 	}
 	biIterator parse_helper::getVariable(biIterator range)
@@ -322,7 +322,7 @@ namespace subs
 	Object::ptr Compile::genFunctions(biIterator range)
 	{
 		using namespace parse_helper;
-		std::unique_ptr<Collection> listFunc = std::make_unique<Collection>();
+		std::unique_ptr<Collection> listFunc = std::unique_ptr<Collection>(new Collection());
 		biIterator currentPart(range);
 		biIterator currentNameFunc;
 		std::unique_ptr<Function> currentFunc;
@@ -361,11 +361,11 @@ namespace subs
 						if (m_factories.find( name1)!=m_factories.end())
 							currentFunc = m_factories[name1]->make_function();
 						else
-							currentFunc = std::make_unique<FunctionStatic>(Function::GetFunction(currentNameFunc));
+							currentFunc = std::unique_ptr<FunctionStatic>(new FunctionStatic(Function::GetFunction(currentNameFunc)));
 					}
 						
 					else
-						currentFunc = std::make_unique<FunctionDynamic>(std::move(parsedName));
+						currentFunc = std::unique_ptr<FunctionDynamic>(new FunctionDynamic(std::move(parsedName)));
 				}
 				currentPart = biIterator(next(it), range.end);
 				auto listargs = getArguments(currentPart);
@@ -387,7 +387,7 @@ namespace subs
 	}
 	Object::ptr Compile::genConditional(biIterator condition, biIterator pass, biIterator fail)
 	{
-		std::unique_ptr<Conditional> conditional = make_unique<Conditional>();
+		std::unique_ptr<Conditional> conditional = std::unique_ptr<Conditional>(new Conditional());
 		conditional->setPassObject(parse(pass));
 		if (!fail.empty())
 			conditional->setFailObject(parse(fail));
