@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "common.h"
+#include "subs/core/subs_conditional.h"
 #include "nlohmann/json.hpp"
 
 
@@ -43,7 +44,7 @@ class AppException : public std::exception
 public:
     AppException() : m_what(){}
     AppException(std::string str) : m_what(std::move(str)){}
-    const char* what() const{return m_what.c_str();};
+    const char* what() const noexcept override {return m_what.c_str();};
 private:
     std::string m_what;
 };
