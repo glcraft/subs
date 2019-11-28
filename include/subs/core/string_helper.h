@@ -17,22 +17,9 @@ namespace strh
 		return TOKENS[pos] == i ? pos : _getId(i, pos + 1);
 	}
 
-	template <typename Char> constexpr Char getChar(char c) { static_assert(false, "wrong type"); }
-	template <> constexpr char getChar<char>(char c)
-	{
-		return TOKENS[_getId(c)];
-	}
-	template <> constexpr wchar_t getChar<wchar_t>(char c)
-	{
-		return WSTR("{}$;(),?:\\^&|")[_getId(c)];
-	}
-	template <> constexpr char16_t getChar<char16_t>(char c)
-	{
-		return U16STR("{}$;(),?:\\^&|")[_getId(c)];
-	}
-	template <> constexpr char32_t getChar<char32_t>(char c)
-	{
-		return U32STR("{}$;(),?:\\^&|")[_getId(c)];
+	template <typename Char> constexpr Char getChar(char c) 
+	{ 
+		return "{}$;(),?:\\^&|"[_getId(c)];
 	}
 	template <typename char_t>
 	std::basic_string<char_t> trim(const std::basic_string<char_t>& in, const char_t* suppressor)
