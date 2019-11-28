@@ -28,5 +28,5 @@ namespace subs
 	};
 }
 #else
-#	pragma message ( "Subs : Caution. FParser module is not integrated." )
+// #	pragma message ( "Subs : Caution. FParser module is not integrated." )
 #endif
