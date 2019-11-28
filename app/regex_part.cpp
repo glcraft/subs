@@ -21,7 +21,7 @@ void regex_mode(const std::string_view& input, const std::string_view& subs_out,
     
     const int red=FOREGROUND_RED|FOREGROUND_INTENSITY, def=screenInfo.wAttributes;
     #else
-    constexpr const char* red="\033[1;31m", def = "\033[1;39m";
+    constexpr const char* red="\033[1;31m", *def = "\033[1;39m";
     #endif
     for (auto& filename : files)
     {
