@@ -44,49 +44,9 @@ namespace subs
 			else
 				return Item::shared_ptr();
 		}
-		virtual Item::shared_ptr getItem(biIterator name)  
-		{
-			if (name == "size")
-			{
-				auto found = m_items.find(-1);
-				VectorBasedItem<Type>::shared_ptr shPtr;
-				if (found == m_items.end())
-				{
-					shPtr = std::make_shared<VectorBasedInfo<Type>>(m_cont, 1);
-					m_items[-1] = shPtr;
-				}
-				else
-					shPtr = found->second;
-				return shPtr;
-			}
-			else
-			{
-				auto val = getValue(name);
-				if (val != -2)
-				{
-					auto found = m_items.find(val);
-					VectorBasedItem<Type>::shared_ptr shPtr;
-					if (found == m_items.end())
-					{
-						shPtr = std::make_shared<VectorBasedItem<Type>>(m_cont, val);
-						m_items[val] = shPtr;
-					}
-					else
-						shPtr = found->second;
-
-					return shPtr;
-				}
-			}
-			return Item::shared_ptr();
-		}
+		virtual Item::shared_ptr getItem(biIterator name);
 	protected:
-		void updateItems()
-		{
-			for (auto item : m_items)
-			{
-				reinterpret_cast<VectorBasedItem<Type>*>(item.second.get())->set(m_cont);
-			}
-		}
+		void updateItems();
 		size_t getValue(biIterator name) const
 		{
 			size_t i;
@@ -96,12 +56,12 @@ namespace subs
 			}
 			catch (std::invalid_argument exc)
 			{
-				std::cerr << __FUNCTION__ << " exception : Argument invalide. Argument passé : " << name.str() << std::endl;
+				std::cerr << __FUNCTION__ << " exception : Argument invalide. Argument passï¿½ : " << name.str() << std::endl;
 				return -2;
 			}
 			catch (std::out_of_range exc)
 			{
-				std::cerr << __FUNCTION__ << " exception : Nombre hors champ. Argument passé : " << name.str() << std::endl;
+				std::cerr << __FUNCTION__ << " exception : Nombre hors champ. Argument passï¿½ : " << name.str() << std::endl;
 				return -2;
 			}
 			return i;
@@ -190,14 +150,52 @@ namespace subs
 		Information m_infoType;
 		std::string m_info;
 	};
-	/*template <>
-	class VectorBasedItem<std::smatch> : public Item
+	template <typename Type>
+	Item::shared_ptr VectorBasedContainer<Type>::getItem(biIterator name)  
 	{
-		virtual std::string get() const
+		if (name == "size")
 		{
-			return m_item ? m_item[0] : "";
+			auto found = m_items.find(-1);
+			std::shared_ptr<Item> shPtr;
+			if (found == m_items.end())
+			{
+				shPtr = std::make_shared<VectorBasedInfo<Type>>(m_cont, 1);
+				m_items[-1] = shPtr;
+			}
+			else
+				shPtr = found->second;
+			return shPtr;
 		}
-	};*/
+		else
+		{
+			auto val = getValue(name);
+			if (val != -2)
+			{
+				auto found = m_items.find(val);
+				std::shared_ptr<Item> shPtr;
+				if (found == m_items.end())
+				{
+					shPtr = std::make_shared<VectorBasedItem<Type>>(m_cont, val);
+					m_items[val] = shPtr;
+				}
+				else
+					shPtr = found->second;
+
+				return shPtr;
+			}
+		}
+		return Item::shared_ptr();
+	}
+	template <typename Type>
+	void VectorBasedContainer<Type>::updateItems()
+	{
+		for (auto item : m_items)
+		{
+			reinterpret_cast<VectorBasedItem<Type>*>(item.second.get())->set(m_cont);
+		}
+	}
+
 	using VectorContainer = VectorBasedContainer<std::vector<std::string>>;
 	using RegexContainer = VectorBasedContainer<std::smatch>;
+
 }
