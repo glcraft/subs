@@ -9,8 +9,6 @@
 void json_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files)
 {
     using json = nlohmann::json;
-    
-    
     subs::Compile subs_compiler;
     std::shared_ptr<subs::JsonContainer> jCont = std::make_shared<subs::JsonContainer>();
     
@@ -41,8 +39,7 @@ void json_mode(const std::string_view& input, const std::string_view& subs_out, 
             std::string str((std::istreambuf_iterator<char>(t)),
                             std::istreambuf_iterator<char>());
 
-            json jsonObj;
-            jsonObj.parse(str);
+            json jsonObj=json::parse(str);
             jCont->set(jsonObj);
             std::cout << subs_object->get();
         }
