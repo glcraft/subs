@@ -12,20 +12,21 @@ namespace subs
 {
 	void Function::Init()
 	{
-		AddFunction("uppercase", [](const arguments_t& args) {
-			if (args.empty()) return ""s;
+		AddFunction("uppercase", [](const arguments_t& args) -> std::string {
+			if (args.empty()) return "";
 			string result = args[0]->get();
 			std::transform(result.begin(), result.end(), result.begin(), ::toupper);//std::for_each(result.begin(), result.end(), [](char& c) {c=std::toupper(c)});
 			return result;
 		});
-		AddFunction("lowercase", [](const arguments_t& args) {
-			if (args.empty()) return ""s;
+		AddFunction("lowercase", [](const arguments_t& args) -> std::string {
+			if (args.empty()) return "";
 			string result = args[0]->get();
 			std::transform(result.begin(), result.end(), result.begin(), ::tolower);//std::for_each(result.begin(), result.end(), [](char& c) {c=std::toupper(c)});
 			return result;
 		});
-		AddFunction("capitalize", [](const arguments_t& args) {
-			if (args.empty()) return ""s;
+		AddFunction("capitalize", [](const arguments_t& args) -> std::string {
+			static const std::string wordSep(" `~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?");
+			if (args.empty()) return "";
 			string result = args[0]->get();
 			bool firstletter=true;
 			std::transform(result.begin(), result.end(), result.begin(), [&firstletter](char c) {
@@ -42,7 +43,7 @@ namespace subs
 				else
 				{
 					//THROW nan c'est pas vrai, juste pour attirer l'attention ici pour les wordSeparators
-					if (" `~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?"s.find_first_of(c)!=string::npos)
+					if (wordSep.find_first_of(c)!=string::npos)
 						firstletter = true;
 					return static_cast<int>(c);
 				}

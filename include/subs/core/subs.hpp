@@ -53,21 +53,20 @@ namespace subs
 		typedef std::vector<_string> Arguments;
 		Interpret()
 		{
-			using namespace std::string_literals;
-			addFunction("uppercase", [this](Arguments args) {
-				if (args.empty()) return ""s;
+			addFunction("uppercase", [this](Arguments args) -> std::string {
+				if (args.empty()) return "";
 				_string result=args[0];
 				std::transform(result.begin(), result.end(), result.begin(), ::toupper);//std::for_each(result.begin(), result.end(), [](char& c) {c=std::toupper(c)});
 				return result;
 			});
-			addFunction("lowercase", [this](Arguments args) {
-				if (args.empty()) return ""s;
+			addFunction("lowercase", [this](Arguments args) -> std::string {
+				if (args.empty()) return "";
 				_string result = args[0];
 				std::transform(result.begin(), result.end(), result.begin(), ::tolower); //std::for_each(result.begin(), result.end(), [](char& c) {c = std::tolower(c)});
 				return result;
 			});
-			auto CapNCamel = [this](Arguments args, bool isNotCamel) {
-				if (args.empty()) return ""s;
+			auto CapNCamel = [this](Arguments args, bool isNotCamel) -> std::string {
+				if (args.empty()) return "";
 				_string result = args[0];
 				bool inWord = false;
 				bool firstChar = false;
@@ -111,8 +110,8 @@ namespace subs
 			addFunction("capitalize", [this, CapNCamel](Arguments args) { return CapNCamel(args, true); });
 			addFunction("camelcase", [this, CapNCamel](Arguments args) { return CapNCamel(args, false); });
 
-			auto AlphaNum = [this](Arguments args, bool getAlpha, bool getNum) {
-				if (args.empty()) return ""s;
+			auto AlphaNum = [this](Arguments args, bool getAlpha, bool getNum) -> std::string {
+				if (args.empty()) return "";
 				_string result = args[0];
 				typename _string::iterator end_pos = std::remove_if(result.begin(), result.end(), [getAlpha, getNum](unsigned char ch) {
 					bool b1 = getAlpha && isalpha(ch);
@@ -125,8 +124,8 @@ namespace subs
 			addFunction("alpha", [this, AlphaNum](Arguments args) { return AlphaNum(args, true, false); });
 			addFunction("alphanum", [this, AlphaNum](Arguments args) { return AlphaNum(args, true, true); });
 			addFunction("num", [this, AlphaNum](Arguments args) { return AlphaNum(args, false, true); });
-			addFunction("replace", [this](Arguments args) { 
-				if (args.size()<3) return "{replace: Needed 3 argument (text, old_pattern, new_pattern)}"s;
+			addFunction("replace", [this](Arguments args) -> std::string { 
+				if (args.size()<3) return "{replace: Needed 3 argument (text, old_pattern, new_pattern)}";
 				_string result;
 				_string _oldString = args[0];
 				_string _oldPattern = args[1];
@@ -142,8 +141,8 @@ namespace subs
 				result+=_oldString.substr(prev);
 				return result; 
 			});
-			addFunction("count_chars", [this](Arguments args) { 
-				if (args.empty()) return "0"s;
+			addFunction("count_chars", [this](Arguments args) -> std::string { 
+				if (args.empty()) return "0";
 				return std::to_string(args[0].length());
 			});
 			addFunction("line_number", [this](Arguments args) {
@@ -152,32 +151,33 @@ namespace subs
 			addFunction("counter", [this](Arguments args) {
 				return std::to_string(m_counter++);
 			});
-			addFunction("shuffle", [this](Arguments args) {
-				if (args.empty()) return ""s;
+			addFunction("shuffle", [this](Arguments args) -> std::string {
+				if (args.empty()) return "";
 				_string result = args[0];
 				std::random_shuffle(result.begin(), result.end());
 				return result;
 			});
-			addFunction("randomize", [this](Arguments args) {
+			addFunction("randomize", [this](Arguments args) -> std::string {
 				if (args.size() < 1 || args.size() > 2)
-					return "{Wrong argument number}"s;
-				_string chars;
+					return "{Wrong argument number}";
+				const char* chars;
 				if (args.size() == 2)
-					chars = args[1];
+					chars = args[1].data();
 				else
 					chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
+				size_t charsLen = strlen(chars);
 				size_t nbChars = stoul(args[0]);
 				_string result(nbChars, ' ');
-				std::for_each(result.begin(), result.end(), [&chars](char& ch) {ch = chars[rand() % chars.size()]; });
+				std::for_each(result.begin(), result.end(), [&chars, charsLen](char& ch) {ch = chars[rand() % charsLen]; });
 				return result;
 			});
 			
-			addFunction("base64_encode", [this](Arguments args) {
-				if (args.empty()) return ""s;
+			addFunction("base64_encode", [this](Arguments args) -> std::string{
+				if (args.empty()) return "";
 				return base64_encode(reinterpret_cast<const unsigned char*>(args[0].c_str()), args[0].size());
 			});
-			addFunction("base64_decode", [this](Arguments args) {
-				if (args.empty()) return ""s;
+			addFunction("base64_decode", [this](Arguments args) -> std::string {
+				if (args.empty()) return "";
 				return base64_decode(args[0]);
 			});
 			addAnalyser("empty", [this](Arguments args) {
@@ -186,7 +186,7 @@ namespace subs
 			});
 			addAnalyser("equals", [this](Arguments args) {
 				if (args.size() != 2)
-					throw std::runtime_error("compare : "s+(args.size()>2?"trop d'arguments":"pas assez d'argument")+u8", deux arguments sont nécéssaires"s);
+					throw std::runtime_error("compare : deux arguments seulement sont nécéssaires");
 				return args[0] == args[1];
 			});
 			addAnalyser("True", [this](Arguments args) {
@@ -383,7 +383,6 @@ namespace subs
 		}
 		_string parse_block(biIterator format) const
 		{
-			using namespace std::string_literals;
 			auto prevPos = format.begin;
 			short currentLevel = 0;
 			biIterator partStr[3];
@@ -435,12 +434,11 @@ namespace subs
 					return parse(partStr[1]);
 				else if (currentID == 2)
 					return parse(partStr[2]);
-				else return ""s;
+				else return "";
 			}
 		}
 		bool parse_expression(biIterator format) const
 		{
-			using namespace std::string_literals;
 			auto prevPos = format.begin;
 			short currentLevel = 0;
 			bool invert=false;
@@ -506,7 +504,7 @@ namespace subs
 								result = itFunc->second(get_args(currentArgs));
 							
 							else
-								throw std::runtime_error("Analyseur inconnu: "s + analy);
+								throw std::runtime_error("Analyseur inconnu: " + analy);
 						}
 						if (invert)
 						{
@@ -528,7 +526,6 @@ namespace subs
 		}
 		_string parse_function(biIterator format) const
 		{
-			using namespace std::string_literals;
 			auto prevPos = format.begin;
 			short currentLevel = 0;
 			_ostringstream finalString;
@@ -602,7 +599,6 @@ namespace subs
 		}
 		long long parse_calc(biIterator format) const
 		{
-			using namespace std::string_literals;
 			auto prevPos = format.begin;
 			short currentLevel = 0;
 			long long finalNumber=0;

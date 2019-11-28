@@ -13,8 +13,6 @@ namespace subs
 			using _string = typename Interpret<Container>::_string;
 			VectorBased() : Interpret<Container>()
 			{
-				using namespace std::string_literals;
-				
 				this->addAnalyser("exists", [this](Arguments args) {
 					this->checkContainer();
 					if (R"(\d+)"_rg.search(args[0]))
@@ -26,16 +24,15 @@ namespace subs
 		protected:
 			virtual _string get_value(biIterator arg0) const
 			{
-				using namespace std::string_literals;
 				this->checkContainer();
 				if (arg0.empty())
-					return ""s;
+					return "";
 				//_string arg0 = trim(args[0]);
 				if (R"(\d+)"_rg.search(arg0))
 				{
 					size_t id = std::stoul(arg0);
 					if (id >= this->getContainer().size())
-						return "{(Nombre hors rang)}"s;
+						return "{(Nombre hors rang)}";
 					return static_cast<std::string>(this->getContainer()[id]);
 				}
 				else if (arg0=="last")
