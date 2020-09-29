@@ -68,6 +68,14 @@ namespace subs
 	protected:
 		function_t m_function;
 	};
+	class Message : public Function
+	{
+	public:
+		Message(std::string msg);
+		virtual std::string get() const;
+	protected:
+		std::string m_msg;
+	};
 	
 	template <typename Type>
 	class SharedRef : public Object
@@ -103,6 +111,19 @@ namespace subs
 		virtual std::unique_ptr<Function> make_function()=0;
 		virtual std::unique_ptr<condition::Question> make_question()=0;
 	};
+	template <typename T>
+	class FactoryType : public subs::Factory
+	{
+	public:
+		virtual std::unique_ptr<subs::Function> make_function()
+		{
+			return std::make_unique<T>();
+		}
+		virtual std::unique_ptr<subs::condition::Question> make_question()
+		{
+			return std::make_unique<T>();
+		}
+	};
 	
 	class Compile
 	{
@@ -116,6 +137,7 @@ namespace subs
 		{
 			return m_factories;
 		}
+		static Compile Init(std::shared_ptr<Container> cont);
 	protected:
 		void make_Text(std::unique_ptr<Collection>& list, biIterator& format, std::string::const_iterator it);
 

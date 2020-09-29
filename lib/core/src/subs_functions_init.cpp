@@ -1,11 +1,12 @@
 
 #include <subs/core/subs_compile.h>
+#include <subs/core/Lambda.hpp>
+#include <subs/core/subs_conditional.h>
 #include <algorithm>
 #include <chrono>
 #include <sstream>
 #include <ctime>
 #include <iomanip>
-#include <subs/core/subs_conditional.h>
 #include <random>
 using namespace std;
 namespace subs

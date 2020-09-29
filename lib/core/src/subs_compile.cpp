@@ -1,5 +1,10 @@
 #include <sstream>
 #include <subs/core/subs_compile.h>
+#include <subs/subs_config.h>
+#include <subs/core/subs_conditional.h>
+#include <subs/core/Lambda.hpp>
+#include <subs/maths/subs_exprtk.h>
+#include <subs/maths/subs_fparser.h>
 #include <subs/core/subs_conditional.h>
 // #include <subs/maths/subs_maths.h>
 using namespace std;
@@ -85,6 +90,10 @@ namespace subs
 	void FunctionDynamic::setName(Object::ptr name)
 	{
 		m_name.swap(name);
+	}
+	Message::Message(std::string msg) : m_msg(std::move(msg)) {}
+	std::string Message::get() const {
+		return m_msg;
 	}
 	std::string Collection::get() const
 	{
@@ -358,12 +367,20 @@ namespace subs
 					if (dynamic_cast<subs::Text*>(parsedName.get()))
 					{
 						std::string name1=parsedName->get();
-						if (m_factories.find( name1)!=m_factories.end())
+						if (name1=="lambda") {
+							auto listargs = getArguments(biIterator(next(it), range.end));
+							if (listargs.size()!=2)
+								throw std::out_of_range("Lambda number of argument not equal 2");//currentFunc = std::unique_ptr<Message>(new Message("{}"));
+							Lambda2::create_lambda(listargs.front(), listargs.back());
+							break;
+						}
+						else if (Lambda2::Exists(name1)) 
+							currentFunc = Lambda2::Get(name1);
+						else if (m_factories.find( name1)!=m_factories.end())
 							currentFunc = m_factories[name1]->make_function();
 						else
 							currentFunc = std::unique_ptr<FunctionStatic>(new FunctionStatic(Function::GetFunction(currentNameFunc)));
 					}
-						
 					else
 						currentFunc = std::unique_ptr<FunctionDynamic>(new FunctionDynamic(std::move(parsedName)));
 				}
@@ -396,6 +413,18 @@ namespace subs
 		condParser.setSubsParser(this);
 		conditional->setQuestion(condParser.parse(condition));
 		return conditional;
+	}
+	Compile Compile::Init(std::shared_ptr<Container> cont)
+	{
+		Compile subs_compiler;
+		subs_compiler.setContainer(cont);
+	#if USE_SUBS_FPARSER
+		subs_compiler.addModuleFactory("fparser", std::make_shared<FactoryType<subs::FParser>>());
+	#endif
+	#if USE_SUBS_EXPRTK
+		subs_compiler.addModuleFactory("exprtk", std::make_shared<FactoryType<subs::ExprTk>>());
+	#endif
+		return std::move(subs_compiler);
 	}
 	void Init()
 	{

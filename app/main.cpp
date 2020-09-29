@@ -6,11 +6,15 @@
 #include <fstream>
 
 #include "common.h"
+#include <subs/subs_config.h>
 #include "subs/core/subs_conditional.h"
+#if USE_SUBS_JSON
 #include "nlohmann/json.hpp"
-
+#endif
 
 void rename_mode(const std::string_view& input, const std::string_view& subs_out);
+
+void nothing_mode(const std::string_view& subs_out);
 
 void regex_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files);
 
@@ -29,6 +33,7 @@ Input methods :
                 json path (ex: $ob1.ob2[3].string;)
                 Note : if file(s) is specified, 'input' 
                 doesn't count, and vice versa...
+    no          Nothing... Just using the language...
 
 Rename options
     -R, --recursive     go through subdirectories
@@ -69,8 +74,12 @@ int real_main (int argc, char** argv)
         regex_mode(input, subs_output, listFiles);
     else if (inputMethod=="rename")
         rename_mode(input, subs_output);
+    else if (inputMethod=="no")
+        nothing_mode(subs_output);
+#if USE_SUBS_JSON
     else if (inputMethod=="json")
         json_mode(input, subs_output, listFiles);
+#endif
     return EXIT_SUCCESS;
 }
 
@@ -93,6 +102,7 @@ int main (int argc, char** argv)
         print_help();
         return 1;
     }
+#if USE_SUBS_JSON
     catch(const nlohmann::json::exception& e)
     {
         std::cerr << "nlohmann::json::exception thrown\n";
@@ -100,6 +110,7 @@ int main (int argc, char** argv)
         print_help();
         return 1;
     }
+#endif
     catch(const std::exception& e)
     {
         std::cerr << "std::exception thrown\n";

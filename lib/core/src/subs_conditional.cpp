@@ -1,6 +1,7 @@
 
 #include <subs/core/subs_conditional.h>
 #include <memory>
+#include <stdexcept>
 // #include <subs/maths/subs_maths.h>
 namespace subs
 {

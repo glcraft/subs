@@ -15,7 +15,7 @@ void rename_mode(const std::string_view& input, const std::string_view& subs_out
     subs_compiler.addModuleFactory("fparser", std::make_shared<FactoryType<subs::FParser>>());
 #endif
 #if USE_SUBS_EXPRTK
-    subs_compiler.addModuleFactory("exprtk", std::make_shared<FactoryType<subs::ExprTK>>());
+    subs_compiler.addModuleFactory("exprtk", std::make_shared<FactoryType<subs::ExprTk>>());
 #endif
     auto subs_object = subs_compiler.parse(std::string(subs_out));
 

@@ -1,9 +1,16 @@
 project (SubsApp)
 
 file(GLOB SubsApp_SRC FILES
-    "*.cpp"
+    "main.cpp"
+    "common.cpp"
+    "common.h"
+    "regex_part.cpp"
+    "rename_part.cpp"
+    "nothing_part.cpp"
 )
-
+if (${USE_SUBS_JSON})
+    LIST(APPEND SubsApp_SRC "json_part.cpp")
+endif()
 add_executable(SubsApp ${SubsApp_SRC})
 target_include_directories(SubsApp PRIVATE ${SUBS_INCLUDE_DIR})
 target_link_libraries(SubsApp SubsCore)

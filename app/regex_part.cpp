@@ -5,6 +5,9 @@
 #include <string_view>
 #include <fstream>
 #include <subs/container/vector_compil_subs.hpp>
+#include <subs/maths/subs_exprtk.h>
+#include <subs/maths/subs_fparser.h>
+
 
 void regex_mode(const std::string_view& input, const std::string_view& subs_out, const std::list<std::string_view>& files)
 {
@@ -16,7 +19,7 @@ void regex_mode(const std::string_view& input, const std::string_view& subs_out,
     subs_compiler.addModuleFactory("fparser", std::make_shared<FactoryType<subs::FParser>>());
 #endif
 #if USE_SUBS_EXPRTK
-    subs_compiler.addModuleFactory("exprtk", std::make_shared<FactoryType<subs::ExprTK>>());
+    subs_compiler.addModuleFactory("exprtk", std::make_shared<FactoryType<subs::ExprTk>>());
 #endif
     auto subs_object = subs_compiler.parse(std::string(subs_out));
     #ifdef WIN32
